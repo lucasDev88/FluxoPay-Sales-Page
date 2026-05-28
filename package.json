@@ -1,0 +1,20 @@
+{
+  "name": "fluxopay-sales-page",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/lucasDev88/FluxoPay-Sales-Page#readme",
+  "bugs": {
+    "url": "https://github.com/lucasDev88/FluxoPay-Sales-Page/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasDev88/FluxoPay-Sales-Page.git"
+  },
+  "license": "ISC",
+  "author": "Lucas Felipe",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cd frontend && npm run dev"
+  }
+}
