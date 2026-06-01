@@ -16,5 +16,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "cd frontend && npm run dev"
+  },
+  "dependencies": {
+    "framer-motion": "^12.40.0",
+    "motion": "^12.40.0"
   }
 }
