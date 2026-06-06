@@ -1,9 +1,11 @@
 import express from "express";
-import { supabase } from "./database/supabase";
 import cors from "cors";
 import leadRoutes from "./routes/leadRoutes";
+import dotenv from "dotenv";
 
 const app = express();
+
+dotenv.config();
 
 app.use(cors());
 app.use(express.json());

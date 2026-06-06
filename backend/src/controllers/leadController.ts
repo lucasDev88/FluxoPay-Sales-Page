@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { supabase } from "../database/supabase";
 import { isValidEmail } from "../utils/emailVerifier";
 import { emailExists, createLead, getLeads, deleteLead, getStats } from "../services/leadService";
+import { sendLeadEmail } from "../utils/emailSender";
 
 export async function LeadCreate(
     req: Request,
@@ -30,7 +30,16 @@ export async function LeadCreate(
 
         const data = await createLead(name, email, source);
 
-        return res.status(201).json(data);
+        try {
+            await sendLeadEmail(name, email, source);
+        } catch (emailError) {
+            console.error("Erro ao enviar email: ", emailError);
+        }
+
+        return res.status(201).json({
+            message: "Lead created successfully",
+            data
+        });
     } catch (err) {
         
         if (
@@ -76,7 +85,15 @@ export async function LeadDelete(
             })
         }
 
-        const success = await deleteLead(Number(id));
+        const leadId = Number(id);
+
+        if (isNaN(leadId)) {
+            return res.status(400).json({
+                error: "Invalid ID"
+            })
+        }
+
+        const success = await deleteLead(leadId);
 
         if (!success) {
             return res.status(404).json({
