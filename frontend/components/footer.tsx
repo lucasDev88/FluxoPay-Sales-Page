@@ -1,4 +1,8 @@
+"use client";
+
 import "@/app/globals.css";
+import { createLead } from "../services/api";
+import { useState } from "react";
 
 const footerLinks = {
   Product: ["Features", "Pricing", "Security", "Changelog", "API Docs"],
@@ -38,6 +42,27 @@ const socials = [
 ];
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+
+  async function handleSubmit(
+    e: React.FormEvent
+  ) {
+    e.preventDefault();
+
+    try {
+      await createLead(name, email);
+
+      alert("Thank you for subscribing!");
+      setEmail("");
+      setName("");
+    } catch (err) {
+      console.error(err);
+
+      alert("An error occurred. Please try again later.");
+    }
+  }
+
   return (
     <footer className="relative w-full overflow-hidden bg-[linear-gradient(180deg,#050816_0%,#040b1a_100%)]">
 
@@ -136,9 +161,18 @@ export default function Footer() {
             <input
               type="email"
               placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="flex-1 md:w-64 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-white text-sm placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:bg-white/8 focus:shadow-[0_0_16px_rgba(34,211,238,0.1)]"
             />
-            <button className="px-5 py-2.5 rounded-full bg-cyan-400/15 border border-cyan-400/30 text-cyan-400 font-semibold text-sm transition-all duration-300 hover:bg-cyan-400/25 hover:border-cyan-400/60 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] whitespace-nowrap">
+            <input
+              type="text"
+              placeholder="your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="flex-1 md:w-64 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-white text-sm placeholder-slate-500 outline-none transition-all duration-300 focus:border-cyan-400/50 focus:bg-white/8 focus:shadow-[0_0_16px_rgba(34,211,238,0.1)]"
+            />
+            <button onClick={handleSubmit} className="px-5 py-2.5 rounded-full bg-cyan-400/15 border border-cyan-400/30 text-cyan-400 font-semibold text-sm transition-all duration-300 hover:bg-cyan-400/25 hover:border-cyan-400/60 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] whitespace-nowrap">
               Subscribe
             </button>
           </div>
